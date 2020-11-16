@@ -1,0 +1,37 @@
+{% extends 'admin/admin_home.html.twig' %}
+
+{% block title %}Tax index{% endblock %}
+
+{% block body %}
+    <h1>Tax index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Vat</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tax in taxes %}
+            <tr>
+                <td>{{ tax.id }}</td>
+                <td>{{ tax.name }}</td>
+                <td>{{ tax.vat }}</td>
+                <td>
+                    <a href="{{ path('tax_show', {'id': tax.id}) }}">show</a>
+                    <a href="{{ path('tax_edit', {'id': tax.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('tax_new') }}">Create new</a>
+{% endblock %}

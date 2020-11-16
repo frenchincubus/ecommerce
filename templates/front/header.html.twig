@@ -1,0 +1,66 @@
+<div style="margin-bottom:0;">
+    <div class="row">
+        <div class="col-lg-6 col-6 text-left">
+            <h1>Site e-commerce</h1>
+        </div>
+        <div class="col-lg-6 col-6 text-right">
+            <div class="d-inline" style="padding-right: 5px;">
+                    {% if app.user %}
+                        <span class="align-bottom">{{ app.user.firstname}} {{ app.user.lastname }} (<a href="{{ path('customer_board')}}">compte</a>)</span>
+                    {% else %}
+                        <span class="align-bottom">Visiteur</span>
+                    {% endif %}                
+                    <span class="align-bottom">
+                    {% if app.user %}            
+                        <a href="{{ path('security_logout') }}">Déconnexion<span class="sr-only">(current)</span></a>            
+                    {% else %}           
+                        <a href="{{ path('security_login') }}">Connexion<span class="sr-only">(current)</span></a>               
+                    {% endif %}
+                </span>
+            </div>
+            {% if app.request.pathinfo != '/order/tunnel' %}
+            <div class="d-inline dropdown" id="dropblock" style="margin-right:5%;">
+                <button class="btn btn-secondary dropdown-toggle" style="margin-top:5px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <i class="material-icons align-bottom">shopping_cart</i> ({{ cart.cartProducts | length }})
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" id="dropdown-list" aria-labelledby="dropdownMenuButton" style="margin-top:-10px;">
+                    <div style="margin:10px;">
+                        {% for product in cart.cartProducts %}
+                            <div>
+                                <div><a class="d-inline" href="{{ path('category_product_show', {'id': product.product.id}) }}">{{ product.product.name }}</a></div>
+                                <span class="d-inline">x {{ product.quantity }}</span>
+                                <span class="d-inline text-bold">{{ (product.product.ttcPrice * product.quantity) | number_format(2, ',', ' ') }} €</span>
+                                <span class="d-inline float-right"><a href="{{ path('remove_product', { 'id': product.id}) }}">X</a></span>
+                            </div>
+                            <div class="dropdown-divider"></div>
+                        {% else %}
+                            <p>Aucun article dans le panier</p>
+                        {% endfor %}                            
+                    </div>
+                    {% if cart.cartProducts %}
+                        <div style="margin:5px;">Total {{ cart.totalPrice | number_format(2, ',', ' ') }} €</div>
+                        <div class="text-center">
+                            <a href="{{ path('order_tunnel')}}" class="btn btn-success text-center">Commander</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div> 
+            {% endif %}
+            
+                       
+        </div>
+    </div>
+</div>
+{% block javascripts %}
+    {# <script>
+        let button = document.getElementById("dropblock");
+        let hover = document.getElementById("dropdown-list");
+        //hover.style.right = -100;
+        button.addEventListener("mouseover", function(e) {
+            hover.classList.add("show");
+        });
+        button.addEventListener('mouseout', function(e) {
+            hover.classList.remove("show");
+        });
+    </script> #}
+{% endblock %}

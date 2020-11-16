@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products from category {{ category.name }}{% endblock %}
+
+{% block body %}
+    <h1>Products of {{ category.name }}</h1>
+
+     <div class="container">
+        <div class="row">       
+        {% for product in products %}
+            <div class="card m-1 text-center" style="width: 18rem;" key={{ product.id }}>
+                <img class="card-img-top" 
+                    src={% if product.productImages is not empty %}
+                        {% for image in product.productImages %}
+                            {% if image.isCover == true %}
+                                "../images/products/{{ image.imageName }}"
+                            {% endif %}                           
+                        {% endfor %}
+                    {% else %}
+                        "../images/no-image-available.jpg" 
+                    {% endif %} 
+                    alt="Card image cap">
+                <div class="card-body">
+                    <a href="{{ path('category_product_show', {'id': product.id}) }}"><h5 class="card-title">{{ product.name }}</h5></a>
+                    <p class="card-text">{{ product.description }}</p>
+                    <h6>{{ product.ttcPrice }} €</h6>
+                    <a href="{{ path('category_product_show', {'id': product.id}) }}" class="btn btn-primary">Détails</a>
+                </div>
+            </div>
+            {# <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.reference }}</td>
+                <td>{{ product.EAN13 }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.weight }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.ttcPrice }}</td>                
+            </tr> #}
+        {% else %}
+            <div>
+                <p>no records found</p>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}

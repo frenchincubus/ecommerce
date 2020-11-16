@@ -1,0 +1,45 @@
+{% extends 'admin/admin_home.html.twig' %}
+
+{% block title %}Address index{% endblock %}
+
+{% block body %}
+    <h1>Address index</h1>
+
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Client</th>
+                <th scope="col">Numéro de voie</th>
+                <th scope="col">Voie</th>                
+                <th scope="col">Code postal</th>
+                <th scope="col">Ville</th>
+                <th scope="col">Pays</th>
+                <th scope="col">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for address in addresses %}
+            <tr>
+                <td>{{ address.id }}</td>
+                <td>{{ address.customerId.id }} - {{ address.customerId.firstname ~ " " ~ address.customerId.lastname}}</td>
+                <td>{{ address.streetNumber }}</td>
+                <td>{{ address.Address }}</td>                
+                <td>{{ address.zipcode }}</td>
+                <td>{{ address.city }}</td>
+                <td>{{ address.country }}</td>
+                <td>
+                    <a href="{{ path('address_show', {'id': address.id}) }}" class="btn btn-primary material-icons">visibility</a>
+                    <a href="{{ path('address_edit', {'id': address.id}) }}" class="btn btn-warning material-icons">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('address_new') }}" class="btn btn-success"><i class="material-icons align-bottom">add</i>Nouvelle adresse</a>
+{% endblock %}

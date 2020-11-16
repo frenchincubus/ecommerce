@@ -1,0 +1,53 @@
+{% extends 'admin/admin_home.html.twig' %}
+
+{% block title %}Liste des produits{% endblock %}
+
+{% block body %}
+    <h1>Liste des produits</h1>
+    <div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Reference</th>
+                <th scope="col">EAN13</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Poids</th>
+                <th scope="col">Description</th>
+                <th scope="col">prix TTC</th>
+                <th scope="col">quantité</th>
+                <th scope="col">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{% if product.getCoverImageName() %}<img style="width:25px;" src="/images/products/{{ product.getCoverImageName() }}">{% endif %} {{ product.name }}</td>
+                <td>{{ product.reference }}</td>
+                <td>{{ product.EAN13 }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.weight }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.ttcPrice }}</td>
+                {% if product.quantity %}                
+                    <td>{{ product.quantity.quantity }}</td>
+                {% else %}
+                    <td> non défini</td>
+                {% endif %}
+                <td>
+                    <a href="{{ path('product_show', {'id': product.id}) }}" class="btn btn-primary material-icons">visibility</a>
+                    <a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-warning material-icons">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <a href="{{ path('product_new') }}" class="btn btn-success"><i class="material-icons align-bottom">add</i>nouveau produit</a>
+{% endblock %}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Admin Board{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block stylesheets %}
+            <style>
+                #admin-menu > li {
+                    margin: 0 10px 0 10px;
+                }
+            </style>
+        {% endblock %}
+        {% block head_css %}
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">            
+            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        {% endblock %}
+        {% block hea_js %}
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+        {% endblock %}
+    </head>
+    <body>
+    
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto" id="admin-menu">        
+                    {# <li class="nav-item"><a class="nav-link" href="{{path('admin_controller')}}">Tableau de bord</a></li> #}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{{ path('product_index') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Produits
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{path('product_index')}}">Produits</a>
+                                <a class="dropdown-item" href="{{path('category_index')}}">Categories</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{{ path('product_index') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Clients
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{path('customer_index')}}">Clients</a>
+                                <a class="dropdown-item" href="{{path('address_index')}}">Adresses</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{path('cart_index')}}">Paniers</a></li>                    
+                    <li class="nav-item"><a class="nav-link" href="{{path('order_index')}}">Commandes</a></li>
+                    
+                </ul>                
+            </div>
+            <div>
+                <span class="navbar-text"><a href="{{ path('accueil_path')}}" target="_blank" rel="noopener noreferrer">voir la boutique</a></span>
+                <h1 class="navbar-text" style="margin-right:20px;"><a class="nav-link" href="{{path('admin_controller')}}">Tableau d'Administration</a></h1>
+                <span class="navbar-text"><p style="margin-bottom:0";>{{ app.user.firstname }}{{ app.user.lastname }}</p><a href="{{path('security_logout')}}">deconnexion</a></span>    
+            </div>
+        </nav>
+    
+    <div class="row">        
+        <div class="container col-lg-10 col-md-10 col-sm-10 col-xs-10">
+            
+            {% block body %}{% endblock %}
+        </div>
+    </div>    
+        {% block javascripts %}{% endblock %}
+        
+    </body>
+</html>

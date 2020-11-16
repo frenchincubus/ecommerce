@@ -1,0 +1,68 @@
+{% extends 'admin/admin_home.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block body %}
+    <h1>{{ product.name }}</h1>
+    <div class="row">
+        <div class="col text-left" style="padding:10px;"><a href="{{ path('product_index') }}" class="btn btn-secondary" style="margin-right:10px;"><i class="material-icons align-bottom">keyboard_arrow_left</i>Retour à la liste</a></div>        
+        <div class="col text-right" style="padding:10px;"><a href="{{ path('product_edit', {'id': product.id}) }}" class="btn btn-warning">Modifier</a></div>       
+    </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ product.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom du produit</th>
+                <td>{{ product.name }}</td>
+            </tr>
+            <tr>
+                <th>Marque</th>
+                <td>{{ product.manufacturer.name }}</td>
+            </tr>
+            <tr>
+                <th>Reference</th>
+                <td>{{ product.reference }}</td>
+            </tr>
+            <tr>
+                <th>EAN13</th>
+                <td>{{ product.EAN13 }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ product.price }}</td>
+            </tr>
+            <tr>
+                <th>TVA</th>
+                <td>{{ product.vat.name }}</td>
+            </tr>
+            <tr>
+                <th>Poids</th>
+                <td>{{ product.weight }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ product.description }}</td>
+            </tr>
+            <tr>
+                <th>prix TTC</th>
+                <td>{{ product.ttcPrice }}</td>
+            </tr>
+            <tr>
+                <th>Stock</th>
+                <td>{{ product.quantity.quantity }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+    {% for image in product.productImages %}
+        <div class="col">
+            <img src="../../images/products/{{ image.imageName }}" class="img-fluid img-thumbnail mw-100" style="height:400px;{{ image.isCover ? 'border:2px solid red;' : ''}}" />    
+        </div>
+    {% endfor %}
+    </div>
+     <div class="col text-right" style="padding:10px;"><p>{{ include('product/_delete_form.html.twig') }}</p></div>
+    
+{% endblock %}

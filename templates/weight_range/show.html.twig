@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WeightRange{% endblock %}
+
+{% block body %}
+    <h1>WeightRange</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ weight_range.id }}</td>
+            </tr>
+            <tr>
+                <th>Min</th>
+                <td>{{ weight_range.min }}</td>
+            </tr>
+            <tr>
+                <th>Max</th>
+                <td>{{ weight_range.max }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ weight_range.price }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('weight_range_index') }}">back to list</a>
+
+    <a href="{{ path('weight_range_edit', {'id': weight_range.id}) }}">edit</a>
+
+    {{ include('weight_range/_delete_form.html.twig') }}
+{% endblock %}

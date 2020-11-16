@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CustomerBoardController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="container">
+    <div class="row">
+        <h1 class="text-center">Hello {{ customer.firstname }} {{ customer.lastname }}</h1>
+    </div>
+    <br>
+    <div class="row">
+        <h3 class="text-bold">Tableau de bord</h3>
+    </div>
+    <br>
+    <div class="row">
+        <section class="col-lg-6">
+            <h4>profil</h4>
+            <p>nom prénom : {{ customer.lastname }} {{ customer.firstname }}</p>
+            <p>age : {{ customer.birthdate ? date("now").diff(customer.birthdate).format('%y ans') : "non renseigné" }} </p>
+            <p>adresse de compte: {{ customer.email }}</p>
+            <button class="btn btn-primary">Modifier informations</button>
+            <a class="btn btn-secondary" href="{{ path('check_password') }}">Modifier mot de passe</a>
+        </section>
+        <section class="col-lg-6">
+            <h5>Mes adresses</h5>
+            {% if customer.addresses is not empty %}
+                <ul class="list-group list-group-flush">
+                {% for adress in customer.addresses %}
+                    <li class="list-group-item">{{ adress.id }} - {{ adress.streetNumber }} {{ adress.address }} {{ adress.zipcode }} {{ adress.city }} {{ adress.country }}</li>                    
+                {% endfor %}
+                    <li class="list-group-item"><a href="{{ path('customer_new_adress') }}">Ajouter une adresse</a></li>
+                </ul>
+            {% else %}
+                <p>Aucune adresse renseignée. <a href="{{ path('customer_new_adress') }}">Ajouter une adresse</a>
+            {% endif %}
+            <h5>Mes commandes</h5>
+            <p>Pas de commandes </p>
+        </section>
+    </div>
+</div>
+{% endblock %}
