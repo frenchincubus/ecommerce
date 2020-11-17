@@ -28,10 +28,10 @@ security:
                 path: security_logout
                 target: accueil_path
 
-            remember_me:
-                secret:   '%kernel.secret%'
-                lifetime: 604800 # 1 week in seconds
-                path:     /admin
+            # remember_me:
+            #     secret:   '%kernel.secret%'
+            #     lifetime: 604800 # 1 week in seconds
+            #     path:     /admin
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -44,6 +44,6 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
-        - { path: ^/customerboard, roles: ROLE_USER, requires_channel: https }
-        - { path: ^/admin, roles: ROLE_ADMIN, requires_channel: https }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/customerboard, roles: [ROLE_USER, ROLE_ADMIN] }
+        - { path: ^/admin, roles: ROLE_ADMIN }
