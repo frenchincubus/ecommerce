@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Customer;
 use App\Service\CartService;
 use App\Form\RegistrationType;
+use App\Repository\CustomerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,16 +17,16 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function Registration(EntityManagerInterface $manager, Request $request, UserPasswordEncoderInterface $encoder)
+    public function Registration(EntityManagerInterface $manager, Request $request, UserPasswordEncoderInterface $encoder, CustomerRepository $customerRepo)
     {
         $customer = new Customer();
-
+        $isFirstCustomer = $customerRepo->findAll();
         $form = $this->createForm(RegistrationType::class, $customer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $customer->setRoles(['ROLE_USER']);
+            sizeof($isFirstCustomer) == 0 ? $customer->setRoles(['ROLE_ADMIN']) : $customer->setRoles(['ROLE_USER']);
             $hash = $encoder->encodePassword($customer, $customer->getPassword());
             $customer->setPassword($hash);
             $manager->persist($customer);
