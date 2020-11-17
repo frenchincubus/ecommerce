@@ -39,7 +39,7 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $qt->setQuantity((int)$form->get('qty')->getData());
-
+            $product->setTtcPrice();
             $productImages = $product->getProductImages();
             foreach($productImages as $key => $productImage){
                 $productImage->setProduct($product);
@@ -82,7 +82,7 @@ class ProductController extends AbstractController
             if ($form->has('qty')) {
                 $product->getQuantity()->setQuantity($form->get('qty')->getData());
             }
-
+            $product->setTtcPrice();
             $productImages = $product->getProductImages();
             foreach($productImages as $key => $productImage){
                 $productImage->setProduct($product);
