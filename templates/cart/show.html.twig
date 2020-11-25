@@ -1,9 +1,13 @@
 {% extends 'admin/admin_home.html.twig' %}
 
-{% block title %}Cart{% endblock %}
+{% block title %}Panier{% endblock %}
 
 {% block body %}
-    <h1>Cart</h1>
+    <h1>Panier {% if cart.customerId %} de {{ cart.customerId.firstname ~ " " ~ cart.customerId.lastname }}
+        {% else %}
+            anonyme
+        {% endif %}
+    </h1>
 
     <table class="table">
         <tbody>
@@ -11,12 +15,47 @@
                 <th>Id</th>
                 <td>{{ cart.id }}</td>
             </tr>
+            {% if cart.customerId %}
+            <tr>
+                <th>Client</th>
+                <td>{{ cart.customerId.firstname ~ " " ~ cart.customerId.lastname }}</td>
+            </tr>
+            {% endif %}                        
             <tr>
                 <th>Total_price</th>
                 <td>{{ cart.totalPrice }}</td>
             </tr>
         </tbody>
     </table>
+    <h3>Contenu</h3>
+    {% if cart.cartProducts is not empty %}
+        <table class="table">
+                <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Produit</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Prix Unitaire HT</th>
+                            <th scope="col">TVA</th>
+                            <th scope="col" class="text-right">Total</th>
+                        </tr>
+                </thead>
+                <tbody>
+        {% for product in cart.cartProducts %}
+                    <tr>
+                        <td><a href="{{ path('category_product_show', {'id': product.product.id}) }}">{{ product.product.name }}</a></td>
+                        <td>
+                            x {{ product.quantity }} {{ " " }}
+                            
+                        </td>
+                        <td>{{ product.product.price }}€</td>
+                        <td class="tva">{{ (product.product.vat.vat * product.product.price * product.quantity) | number_format(2, ',', ' ') }}</td>
+                        <td class="text-right pricettc">{{ (product.product.ttcPrice * product.quantity) | number_format(2, ',', ' ') }} €</td>                        
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    
 
     <a href="{{ path('cart_index') }}">back to list</a>
 

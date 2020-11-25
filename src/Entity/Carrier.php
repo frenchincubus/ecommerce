@@ -118,4 +118,19 @@ class Carrier
 
         return $this;
     }
+
+    public function getTarif($weight): WeightRange 
+    {
+        foreach ($this->getWeightRanges() as $range) {
+            if ($weight >= $range->getMin() && $weight <= $range->getMax())
+            {
+                return $range;
+            }
+        }
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

@@ -6,6 +6,7 @@ use App\Entity\Customer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationType extends AbstractType
@@ -16,7 +17,7 @@ class RegistrationType extends AbstractType
             ->add('firstname')
             ->add('lastname')
             ->add('email')
-            ->add('birthdate')
+            ->add('birthdate', BirthdayType::class)
             ->add('password', PasswordType::class)
             ->add('password_confirm',PasswordType::class)
         ;

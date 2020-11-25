@@ -1,15 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/admin_home.html.twig' %}
 
-{% block title %}Carrier index{% endblock %}
+{% block title %}Transporteurs{% endblock %}
 
 {% block body %}
-    <h1>Carrier index</h1>
+    <h1>Liste des transporteurs</h1>
 
-    <table class="table">
-        <thead>
+    <table class="table table-striped">
+        <thead class="thead-dark">
             <tr>
                 <th>Id</th>
-                <th>Name</th>
+                <th>Nom</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -19,8 +19,8 @@
                 <td>{{ carrier.id }}</td>
                 <td>{{ carrier.name }}</td>
                 <td>
-                    <a href="{{ path('carrier_show', {'id': carrier.id}) }}">show</a>
-                    <a href="{{ path('carrier_edit', {'id': carrier.id}) }}">edit</a>
+                    <a href="{{ path('carrier_show', {'id': carrier.id}) }}" class="btn btn-primary material-icons" >visibility</a>
+                    <a href="{{ path('carrier_edit', {'id': carrier.id}) }}" class="btn btn-warning material-icons">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -31,5 +31,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('carrier_new') }}">Create new</a>
+    <a href="{{ path('carrier_new') }}" class="btn btn-success"><i class="material-icons align-bottom">add</i>Nouveau transporteur</a>
 {% endblock %}

@@ -1,20 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'order_tunnel/base.html.twig' %}
 
 {% block title %}Shopping cart{% endblock %}
 
 {% block body %}
 <div class="container">
-    <div class="row">
-        <div class="col-lg-12">
+    <h3>Votre Panier</h3>
+    <div>{% if app.user %}{{ app.user.firstname ~ " " ~ app.user.lastname }}{% endif %}</div>
+    <div class="row" style="height:800px;justify-content:center;display:flex;flex-direction:column;">
+        <div class="table-responsive">
         {% if cart.cartProducts is not empty %}
-            {% for product in cart.cartProducts %}
+            
                         <table class="table" style="width:100%">
-                        <thead>
+                        <thead class="thead-dark">
                                 <tr>
-                                    <th>Produit</th><th>Quantité</th><th class="text-right">Total</th>
+                                    <th scope="col">Produit</th>
+                                    <th scope="col">Quantité</th>
+                                    <th scope="col">TVA</th>
+                                    <th scope="col" class="text-right">Total</th>
+                                    <th scope="col"></th>
                                 </tr>
                         </thead>
                         <tbody>
+                        {% for product in cart.cartProducts %}
                             <tr>
                                 <td><a href="{{ path('category_product_show', {'id': product.product.id}) }}">{{ product.product.name }}</a></td>
                                 <td>
@@ -24,16 +31,47 @@
                                         <button type="button" class="btn btn-secondary">-</button>
                                     </div>
                                 </td>
+                                <td class="tva">{{ product.product.vat.vat * product.product.price * product.quantity }}</td>
                                 <td class="text-right">{{ (product.product.ttcPrice * product.quantity) | number_format(2, ',', ' ') }} €</td>
-                                <td><a href="{{ path('remove_product', { 'id': product.id}) }}">X</a></td>
+                                <td class="text-center"><a href="{{ path('remove_product', { 'id': product.id}) }}" class="material-icons">delete</a></td>
                             </tr>
                     {% endfor %}
-                            <tr><td colspan="2" class="text-right">Total</td><td class="text-right">{{ cart.totalPrice | number_format(2, ',', ' ') }} €</td></tr>
+                            <tr><td colspan="3" class="text-right"><b>Total TVA</b></td><td class="text-right" id="totaltva">0 €</td></tr>
+                            <tr><td colspan="3" class="text-right"><b>Total TTC</b></td><td class="text-right" id="total">{{ cart.totalPrice | number_format(2, ',', ' ') }} €</td></tr>
                         </tbody>
                     </table>
         {% else %}
-        <div>Panier vide !</div>
+            <div>Panier vide !</div>
         {% endif %}
         </div>
+        <div class="row">
+            <div class="col text-left">
+                <a href="{{ path('accueil_path')}}" class="btn btn-primary">Continuer mes achats</a>
+            </div>
+            <div class="col text-right">
+                <a href="
+                {% if app.user %}
+                    {% if app.user.addresses is not empty %}
+                    {{ path('order_tunnel_addresses') }}
+                    {% else %}
+                    {{ path('customer_new_adress') }}
+                    {% endif %}
+                {% else %}
+                    {{ path('security_login') }}
+                {% endif %}
+                "
+                class="btn btn-success"
+                >Commander</a>
+            </div>
+        </div>
     </div>
+    <script>
+        var tvas = document.getElementsByClassName('tva');
+        var totalTVA = document.getElementById('totaltva');
+        tva = 0;
+        for(var i=0; i<tvas.length; i++) {
+            tva += parseFloat(tvas[i].textContent);
+        }
+        totalTVA.textContent = tva.toFixed(2) + ' €';
+    </script>
 {% endblock %}

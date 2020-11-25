@@ -1,0 +1,77 @@
+{% extends "order_tunnel/base.html.twig" %}
+
+{% block body %}
+    <h2>Order summary</h2>
+    <div class="container">
+        <div>
+            <table class="table" style="width:100%">
+                <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Produit</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Prix Unitaire HT</th>
+                            <th scope="col">TVA</th>
+                            <th scope="col" class="text-right">Total</th>
+                            <th scope="col"></th>
+                        </tr>
+                </thead>
+                <tbody>
+                {% for product in cart.cartProducts %}
+                    <tr>
+                        <td><a href="{{ path('category_product_show', {'id': product.product.id}) }}">{{ product.product.name }}</a></td>
+                        <td>
+                            x {{ product.quantity }} {{ " " }}
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-secondary">+</button>
+                                <button type="button" class="btn btn-secondary">-</button>
+                            </div>
+                        </td>
+                        <td>{{ product.product.price }}€</td>
+                        <td class="tva">{{ (product.product.vat.vat * product.product.price * product.quantity) | number_format(2, ',', ' ') }}</td>
+                        <td class="text-right pricettc">{{ (product.product.ttcPrice * product.quantity) | number_format(2, ',', ' ') }} €</td>
+                        <td class="text-center"><a href="{{ path('remove_product', { 'id': product.id}) }}" class="material-icons">delete</a></td>
+                    </tr>
+            {% endfor %}
+                    <tr><td colspan="4" class="text-right"><b>Total HT</b></td><td class="text-right" id="totalht">0</td></tr>
+                    <tr><td colspan="4" class="text-right"><b>Total TVA</b></td><td class="text-right" id="totaltva">0</td></tr>
+                    <tr><td colspan="4" class="text-right"><b>Frais de port</b></td><td class="text-right">{{ carrier.price }} €</td></tr>
+                    <tr><td colspan="4" class="text-right"><b>Total TTC</b></td><td class="text-right" id="total">{{ (cart.totalPrice + carrier.price) | number_format(2, ',', ' ') }} €</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div>
+                <p>{{ addresse.streetNumber ~ " " ~ addresse.address ~ " " ~ addresse.zipcode ~ " " ~ addresse.city ~ " " ~ addresse.country }}</p>
+            </div>
+        </div>
+        <div>
+            <p>{{ carrier.carrier.name ~ " - " ~ carrier.price }}</p>
+        </div>
+        <div>
+            <p>{{ payment.name }}</p>
+            <p>{{ payment.informations }}</p>
+        </div>
+        <div>
+            <form action="{{ path('order_tunnel_summary') }}" method="post">
+                <input type="submit" class="btn btn-success" name="submit" value="Commander" >
+            </form>
+        </div>
+    </div>
+    <script>
+        var tvas = document.getElementsByClassName('tva');
+        var totalTVA = document.getElementById('totaltva');
+        var pricesttc = document.getElementsByClassName('pricettc');
+        var totalHT = document.getElementById('totalht');
+        tva = 0.0; totalht = 0.0;
+        for(var i=0; i<tvas.length; i++) {
+            console.log('round '+i+': '+tvas[i].textContent + ' - tva: '+tva);
+            tva = parseFloat(tva) + parseFloat(tvas[i].textContent.replace(',', '.'));
+            totalht += (parseFloat(pricesttc[i].textContent) - parseFloat(tvas[i].textContent));
+            console.log(': tva: '+tva);
+        }
+        tva = String(tva).replace('.', ',');
+        console.log(tva);
+        totalTVA.textContent = tva + ' €';
+        totalHT.textContent = totalht + ' €';
+    </script>
+{% endblock %}

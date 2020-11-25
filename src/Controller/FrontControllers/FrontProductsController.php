@@ -12,6 +12,7 @@ use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FrontProductsController extends AbstractController
@@ -39,7 +40,13 @@ class FrontProductsController extends AbstractController
         {
             $cartService->addProductToCart($request, $product, $cartRepository);
 
-            // return $this->redirectToRoute('accueil_path');
+            $defaultContext = [
+                AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                    return $object->getId();
+                },
+            ];
+            // return $this->json($result, 200, [], $defaultContext);
+            return $this->json($cartService->getCart(), 200, [], $defaultContext);
         }
 
         return $this->render('front/show_product.html.twig', [

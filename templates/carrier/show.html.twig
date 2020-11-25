@@ -1,9 +1,9 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/admin_home.html.twig' %}
 
-{% block title %}Carrier{% endblock %}
+{% block title %}Transporteurs{% endblock %}
 
 {% block body %}
-    <h1>Carrier</h1>
+    <h1>Transporteur {{ carrier.name }}</h1>
 
     <table class="table">
         <tbody>
@@ -17,7 +17,25 @@
             </tr>
         </tbody>
     </table>
-
+    <h4>Tarifs</h4>
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Min</th>
+            <th scope="col">Max</th>
+            <th scope="col">Prix</th>
+        </tr>
+        {% for range in carrier.weightRanges %}
+            <tr>
+                <td>{{ range.id }}</td>
+                <td>{{ range.min }} kg</td>
+                <td>{{ range.max }} kg</td>
+                <td>{{ range.price }} €</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
     <a href="{{ path('carrier_index') }}">back to list</a>
 
     <a href="{{ path('carrier_edit', {'id': carrier.id}) }}">edit</a>

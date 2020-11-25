@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Products from category {{ category.name }}{% endblock %}
+{% block title %}Produits de la categorie {{ category.name }}{% endblock %}
 
 {% block body %}
-    <h1>Products of {{ category.name }}</h1>
+    <h1 class="text-center">{{ category.name }}</h1>
 
      <div class="container">
-        <div class="row">       
+        <div class="row justify-content-md-between" style="margin-bottom:100px;">       
         {% for product in products %}
-            <div class="card m-1 text-center" style="width: 18rem;" key={{ product.id }}>
+            <div class="card m-1 text-center justify-content-lg-around" style="width: 18rem;" key={{ product.id }}>
                 <img class="card-img-top" 
                     src={% if product.productImages is not empty %}
                         {% for image in product.productImages %}
@@ -22,24 +22,14 @@
                     alt="Card image cap">
                 <div class="card-body">
                     <a href="{{ path('category_product_show', {'id': product.id}) }}"><h5 class="card-title">{{ product.name }}</h5></a>
-                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text text-truncate">{{ product.description }}</p>
                     <h6>{{ product.ttcPrice }} €</h6>
                     <a href="{{ path('category_product_show', {'id': product.id}) }}" class="btn btn-primary">Détails</a>
                 </div>
-            </div>
-            {# <tr>
-                <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.reference }}</td>
-                <td>{{ product.EAN13 }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.weight }}</td>
-                <td>{{ product.description }}</td>
-                <td>{{ product.ttcPrice }}</td>                
-            </tr> #}
+            </div>           
         {% else %}
             <div>
-                <p>no records found</p>
+                <p>aucun produit trouvé</p>
             </div>
         {% endfor %}
         </div>

@@ -1,9 +1,15 @@
 <div style="margin-bottom:0;">
-    <div class="row">
-        <div class="col-lg-6 col-6 text-left">
+    <div class="row" style="width:100%;">
+        <div class="col-lg-4 col-12 text-left">
             <h1>Site e-commerce</h1>
         </div>
-        <div class="col-lg-6 col-6 text-right">
+        <div class="col-lg-5 col-12" style="margin:auto;">
+            <form class="form-inline my-2 my-lg-0" >
+                <input class="form-control mr-sm-2" style="width:80%;" type="search" placeholder="Search" aria-label="Search" id="search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+        <div class="col-lg-3 col-12 text-right">
             <div class="d-inline" style="padding-right: 5px;">
                     {% if app.user %}
                         <span class="align-bottom">{{ app.user.firstname}} {{ app.user.lastname }} (<a href="{{ path('customer_board')}}">compte</a>)</span>
@@ -19,18 +25,18 @@
                 </span>
             </div>
             {% if app.request.pathinfo != '/order/tunnel' %}
-            <div class="d-inline dropdown" id="dropblock" style="margin-right:5%;">
+            <div class="d-inline dropdown" id="dropblock">
                 <button class="btn btn-secondary dropdown-toggle" style="margin-top:5px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                   <i class="material-icons align-bottom">shopping_cart</i> ({{ cart.cartProducts | length }})
+                   <i class="material-icons align-bottom">shopping_cart</i><span id="cartcount"> {{ cart.cartProducts | length }}</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" id="dropdown-list" aria-labelledby="dropdownMenuButton" style="margin-top:-10px;">
-                    <div style="margin:10px;">
+                    <div id="cart" style="margin:10px;">
                         {% for product in cart.cartProducts %}
                             <div>
                                 <div><a class="d-inline" href="{{ path('category_product_show', {'id': product.product.id}) }}">{{ product.product.name }}</a></div>
                                 <span class="d-inline">x {{ product.quantity }}</span>
                                 <span class="d-inline text-bold">{{ (product.product.ttcPrice * product.quantity) | number_format(2, ',', ' ') }} €</span>
-                                <span class="d-inline float-right"><a href="{{ path('remove_product', { 'id': product.id}) }}">X</a></span>
+                                <span class="d-inline float-right"><a href="{{ path('remove_product', { 'id': product.id}) }}" class="material-icons">delete</a></span>
                             </div>
                             <div class="dropdown-divider"></div>
                         {% else %}
@@ -38,7 +44,7 @@
                         {% endfor %}                            
                     </div>
                     {% if cart.cartProducts %}
-                        <div style="margin:5px;">Total {{ cart.totalPrice | number_format(2, ',', ' ') }} €</div>
+                        <div id="total" style="margin:5px;">Total {{ cart.totalPrice | number_format(2, ',', ' ') }} €</div>
                         <div class="text-center">
                             <a href="{{ path('order_tunnel')}}" class="btn btn-success text-center">Commander</a>
                         </div>
@@ -52,6 +58,7 @@
     </div>
 </div>
 {% block javascripts %}
+    {# <script src="{{ app.request.baseUrl }}/scripts/searchengine.js"></script> #}
     {# <script>
         let button = document.getElementById("dropblock");
         let hover = document.getElementById("dropdown-list");

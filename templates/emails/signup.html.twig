@@ -1,0 +1,9 @@
+<h1>Welcome {{ user.firstname }}!</h1>
+
+<p>
+    You signed up as {{ user.firstname ~ " " ~ user.lastname }} the following email:
+</p>
+<p><code>{{ email.to[0].address }}</code></p>
+<p> birthdate : {{ user.birthdate | date("d M Y") }}</p>
+
+<p>Please consider this site "boutique" as a development student's project and is not a real e-commerce place</p>

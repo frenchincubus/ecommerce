@@ -30,10 +30,35 @@ class Order
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Carrier::class, inversedBy="orders")
+     * @ORM\ManyToOne(targetEntity=WeightRange::class, inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
      */
     private $carrier;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Payment::class, mappedBy="orderId", cascade={"persist", "remove"})
+     */
+    private $payment;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $state;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $amount;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $vat;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $shipping;
 
     public function getId(): ?int
     {
@@ -64,14 +89,79 @@ class Order
         return $this;
     }
 
-    public function getCarrier(): ?Carrier
+    public function getCarrier(): ?WeightRange
     {
         return $this->carrier;
     }
 
-    public function setCarrier(?Carrier $carrier): self
+    public function setCarrier(?WeightRange $carrier): self
     {
         $this->carrier = $carrier;
+
+        return $this;
+    }
+
+    public function getPayment(): ?Payment
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(Payment $payment): self
+    {
+        $this->payment = $payment;
+
+        // set the owning side of the relation if necessary
+        if ($payment->getOrderId() !== $this) {
+            $payment->setOrderId($this);
+        }
+
+        return $this;
+    }
+
+    public function getState(): ?int
+    {
+        return $this->state;
+    }
+
+    public function setState(int $state): self
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    public function getAmount(): ?float
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(float $amount): self
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getVat(): ?float
+    {
+        return $this->vat;
+    }
+
+    public function setVat(?float $vat): self
+    {
+        $this->vat = $vat;
+
+        return $this;
+    }
+
+    public function getShipping(): ?float
+    {
+        return $this->shipping;
+    }
+
+    public function setShipping(?float $shipping): self
+    {
+        $this->shipping = $shipping;
 
         return $this;
     }

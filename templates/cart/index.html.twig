@@ -1,17 +1,17 @@
 {% extends 'admin/admin_home.html.twig' %}
 
-{% block title %}Cart index{% endblock %}
+{% block title %}Liste des paniers{% endblock %}
 
 {% block body %}
-    <h1>Cart index</h1>
+    <h1>Liste des paniers</h1>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Client</th>
-                <th>Total TTC</th>
-                <th class="text-right">actions</th>
+                <th scope="col">Id</th>
+                <th scope="col">Client</th>
+                <th scope="col">Total TTC</th>
+                <th scope="col" class="text-right">actions</th>
             </tr>
         </thead>
         <tbody>
@@ -21,17 +21,17 @@
                 <td>{{ cart.customerId is not empty ? cart.customerId.firstname ~ " " ~ cart.customerId.lastname : ''  }}</td>
                 <td>{{ cart.totalPrice }}</td>
                 <td class="text-right">
-                    <a href="{{ path('cart_show', {'id': cart.id}) }}">voir</a>
-                    <a href="{{ path('cart_edit', {'id': cart.id}) }}">modifier</a>
+                    <a href="{{ path('cart_show', {'id': cart.id}) }}" class="material-icons align-bottom">visibility</a>
+                    <a href="{{ path('cart_edit', {'id': cart.id}) }}" class="material-icons align-bottom">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucun panier</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('cart_new') }}">Create new</a>
+    <a href="{{ path('cart_new') }}" class="btn btn-success"><i class="material-icons align-bottom">add</i>Créer un panier</a>
 {% endblock %}

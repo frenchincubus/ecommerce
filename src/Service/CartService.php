@@ -52,7 +52,9 @@ class CartService extends AbstractController
         return $this->cartRepository->find($this->session->get('cart_id'));
     }
 
-    
+    /**
+     * @Route("cart/add/{product}", name="cart_add")
+     */
     public function addProductToCart(Request $request, Product $product, CartRepository $cartRepository)
     {
         $quantity = $request->get('quantity');

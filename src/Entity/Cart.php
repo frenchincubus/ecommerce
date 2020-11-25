@@ -104,4 +104,9 @@ class Cart
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getId(). ' - '.$this->getCartProducts()[0].getDate().' - '.$this->getTotalPrice();
+    }
 }

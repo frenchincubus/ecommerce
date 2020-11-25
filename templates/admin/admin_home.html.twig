@@ -55,7 +55,16 @@
                     </li>
                     <li class="nav-item"><a class="nav-link" href="{{path('cart_index')}}">Paniers</a></li>                    
                     <li class="nav-item"><a class="nav-link" href="{{path('order_index')}}">Commandes</a></li>
-                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="{{ path('carrier_index') }}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Transport
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{path('carrier_index')}}">Transporteurs</a>
+                                <a class="dropdown-item" href="{{path('weight_range_index')}}">Tarifs</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="{{path('type_payment_index')}}">Paiements</a></li>
                 </ul>                
             </div>
             <div>

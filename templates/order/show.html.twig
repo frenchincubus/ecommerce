@@ -5,11 +5,11 @@
 {% block body %}
     <h1>Order</h1>
 
-    <table class="table">
+    <table class="table table-striped">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ order.id }}</td>
+                <th>Client</th>
+                <td>{{ order.cartId.customerId.firstname ~ " " ~ order.cartId.customerId.lastname }}</td>
             </tr>
             <tr>
                 <th>Date</th>
@@ -17,6 +17,36 @@
             </tr>
         </tbody>
     </table>
+
+    <h4>Panier</h4>
+
+    <table class="table" style="width:100%">
+                <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Produit</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Prix Unitaire HT</th>
+                            <th scope="col">TVA</th>
+                            <th scope="col" class="text-right">Total</th>
+                            <th scope="col"></th>
+                        </tr>
+                </thead>
+                <tbody>
+                {% for product in order.cartId.cartProducts %}
+                    <tr>
+                        <td><a href="{{ path('category_product_show', {'id': product.product.id}) }}">{{ product.product.name }}</a></td>
+                        <td>x {{ product.quantity }} {{ " " }}</td>
+                        <td>{{ product.product.price }}€</td>
+                        <td class="tva">{{ (product.product.vat.vat * product.product.price * product.quantity) | number_format(2, ',', ' ') }}</td>
+                        <td class="text-right pricettc">{{ (product.product.ttcPrice * product.quantity) | number_format(2, ',', ' ') }} €</td>
+                    </tr>
+            {% endfor %}
+                    <tr><td colspan="4" class="text-right"><b>Total HT</b></td><td class="text-right" id="totalht">0</td></tr>
+                    <tr><td colspan="4" class="text-right"><b>Total TVA</b></td><td class="text-right" id="totaltva">{{ order.vat }} €</td></tr>
+                    <tr><td colspan="4" class="text-right"><b>Frais de port</b></td><td class="text-right">{{ order.shipping }} €</td></tr>
+                    <tr><td colspan="4" class="text-right"><b>Total TTC</b></td><td class="text-right" id="total">{{ (order.amount) | number_format(2, ',', ' ') }} €</td></tr>
+                </tbody>
+            </table>
 
     <a href="{{ path('order_index') }}">back to list</a>
 

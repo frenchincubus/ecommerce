@@ -1,0 +1,37 @@
+{% extends 'admin/admin_home.html.twig' %}
+
+{% block title %}TypePayment index{% endblock %}
+
+{% block body %}
+    <h1>TypePayment index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Informations</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for type_payment in type_payments %}
+            <tr>
+                <td>{{ type_payment.id }}</td>
+                <td>{{ type_payment.name }}</td>
+                <td>{{ type_payment.informations }}</td>
+                <td>
+                    <a href="{{ path('type_payment_show', {'id': type_payment.id}) }}">show</a>
+                    <a href="{{ path('type_payment_edit', {'id': type_payment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('type_payment_new') }}">Create new</a>
+{% endblock %}

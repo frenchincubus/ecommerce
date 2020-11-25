@@ -1,8 +1,8 @@
 let searchField = document.getElementById("search");
         let div = document.createElement("div"); div.className = "dropdown";
         div.style.marginTop = "40px";
-        div.style.marginRight = "100px";
-        let liste = document.createElement("div"); liste.className = "dropdown-menu dropdown-menu-right show";
+        // div.style.marginRight = "100px";
+        let liste = document.createElement("div"); liste.className = "dropdown-menu show";
         div.appendChild(liste);
         searchField.oninput = function() {
             let url = '/products/search/'+searchField.value;

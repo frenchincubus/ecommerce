@@ -32,7 +32,8 @@ class SecurityController extends AbstractController
             $manager->persist($customer);
             $manager->flush();
 
-            return $this->redirectToRoute('security_login');
+            return $this->redirectToRoute('send_subscribe_mail', ['customer' => $customer]);
+            // return $this->redirectToRoute('security_login');
         }
 
         return $this->render('security/registration.html.twig', ['form' => $form->createView()]);

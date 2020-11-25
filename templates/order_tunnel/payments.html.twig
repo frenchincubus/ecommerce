@@ -1,0 +1,23 @@
+{% extends "order_tunnel/base.html.twig" %}
+
+{% block body %}
+<h1>Payment</h1>
+<div class="container">
+        {% for message in app.flashes('notice') %}
+            <div class="flash-notice alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <form action="{{ path('order_tunnel_payments')}}" method="post">
+            <div style="height:500px;justify-content:center;display:flex;flex-direction:column;">
+                {% for payment in payments %}
+                <div class="form-group" style="border:1px solid black;">
+                    <input type="radio" id="payment{{ payment.id }}" name="payment" value="{{ payment.getId() }}">
+                    <label for="payment{{ payment.id }}">{{ payment.name }}</label>
+                </div>
+                {% endfor %}
+            </div>
+            <input type="submit" name="submit" class="btn btn-success" value="Choisir">
+        </form>
+    </div>
+{% endblock %}

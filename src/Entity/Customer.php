@@ -61,7 +61,7 @@ class Customer implements UserInterface
     private $addresses;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cart::class, mappedBy="customer_id")
+     * @ORM\OneToMany(targetEntity=Cart::class, mappedBy="customer_id", cascade={"remove"})
      */
     private $carts;
 
@@ -70,10 +70,16 @@ class Customer implements UserInterface
      */
     private $roles = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity=Payment::class, mappedBy="customer")
+     */
+    private $payments;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
         $this->carts = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,6 +229,37 @@ class Customer implements UserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Payment[]
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments[] = $payment;
+            $payment->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->contains($payment)) {
+            $this->payments->removeElement($payment);
+            // set the owning side to null (unless already changed)
+            if ($payment->getCustomer() === $this) {
+                $payment->setCustomer(null);
+            }
+        }
 
         return $this;
     }

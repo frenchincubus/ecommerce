@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Tax;
 use App\Entity\Product;
+use App\Entity\Category;
 use App\Entity\Manufacturer;
 use App\Form\ProductImageType;
 use Symfony\Component\Form\AbstractType;
@@ -25,6 +26,7 @@ class ProductType extends AbstractType
             ->add('price')
             ->add('weight')
             ->add('description')
+            ->add('category', EntityType::class, ['class' => Category::class, 'mapped' => false, 'multiple' => true])
             ->add('vat', EntityType::class, ['class' => Tax::class])
             ->add('qty', NumberType::class, ['label' => 'quantity', 'html5' => true,'mapped' => false])
             ->add('product_images', CollectionType::class, [

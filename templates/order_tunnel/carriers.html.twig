@@ -1,0 +1,25 @@
+{% extends "order_tunnel/base.html.twig" %}
+
+{% block body %}
+    <h2>Transporteurs</h2>
+    
+    <div class="container">
+        {% for message in app.flashes('notice') %}
+            <div class="flash-notice alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <form action="{{ path('order_tunnel_carriers')}}" method="post">
+            <div style="height:500px;justify-content:center;display:flex;flex-direction:column;">
+                {% for carrier in carriers %}
+                <div class="form-group" style="border:1px solid black;">
+                    <input type="radio" id="carrier{{ carrier.id }}" name="carrier_range" value="{{ carrier.getTarif(weight).getId() }}">
+                    <label for="carrier{{ carrier.id }}">{{ carrier.name ~ " - " ~ carrier.getTarif(weight).getPrice() }} €</label>
+                </div>
+                {% endfor %}
+            </div>
+            <input type="submit" name="submit" class="btn btn-success" value="Choisir">
+        </form>
+        {{ dump(app.session) }}
+    </div>
+{% endblock %}

@@ -1,10 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/admin_home.html.twig' %}
 
 {% block title %}WeightRange{% endblock %}
 
 {% block body %}
-    <h1>WeightRange</h1>
-
+    <h1>Tarif de {{ weight_range.carrier.name }}</h1>
+    <a href="{{ path('weight_range_index') }}" class="btn btn-secondary"><i class="material-icons align-bottom">keyboard_arrow_left</i>Retour à la liste</a>
     <table class="table">
         <tbody>
             <tr>
@@ -20,15 +20,15 @@
                 <td>{{ weight_range.max }}</td>
             </tr>
             <tr>
-                <th>Price</th>
+                <th>Tarif</th>
                 <td>{{ weight_range.price }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('weight_range_index') }}">back to list</a>
+    
 
-    <a href="{{ path('weight_range_edit', {'id': weight_range.id}) }}">edit</a>
+    <a href="{{ path('weight_range_edit', {'id': weight_range.id}) }}" class="btn btn-warning">Modifier</a>
 
     {{ include('weight_range/_delete_form.html.twig') }}
 {% endblock %}
